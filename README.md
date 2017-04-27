@@ -1,3 +1,5 @@
+Kini Edition
+
 ![Karumi logo][karumilogo] KataSuperHeroes for Android. [![Build Status](https://travis-ci.org/Karumi/KataSuperHeroesAndroid.svg?branch=kata-super-heroes)](https://travis-ci.org/Karumi/KataSuperHeroesAndroid)
 ============================
 
