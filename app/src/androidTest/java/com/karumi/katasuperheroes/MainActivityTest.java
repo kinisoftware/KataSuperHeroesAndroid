@@ -17,14 +17,17 @@
 package com.karumi.katasuperheroes;
 
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.intent.rule.IntentsTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.view.View;
 
 import com.karumi.katasuperheroes.di.MainComponent;
 import com.karumi.katasuperheroes.di.MainModule;
 import com.karumi.katasuperheroes.model.SuperHero;
 import com.karumi.katasuperheroes.model.SuperHeroesRepository;
+import com.karumi.katasuperheroes.recyclerview.RecyclerViewInteraction;
 import com.karumi.katasuperheroes.ui.view.MainActivity;
 
 import org.junit.Rule;
@@ -41,7 +44,9 @@ import it.cosenonjaviste.daggermock.DaggerMockRule;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.core.IsNot.not;
 import static org.mockito.Mockito.when;
@@ -101,10 +106,31 @@ public class MainActivityTest {
         onView(withText(superHero.getName())).check(matches(isDisplayed()));
     }
 
+    @Test
+    public void showsEachSuperHeroNameWhenThereAreTenSuperHeroes() {
+        List<SuperHero> superHeroes = givenThereAreSomeSuperHeroes(10);
+
+        startActivity();
+
+        RecyclerViewInteraction.<SuperHero>onRecyclerView(withId(R.id.recycler_view))
+                .withItems(superHeroes)
+                .check(new RecyclerViewInteraction.ItemViewAssertion<SuperHero>() {
+                    @Override
+                    public void check(SuperHero superHero, View view, NoMatchingViewException e) {
+                        matches(hasDescendant(withText(superHero.getName()))).check(view, e);
+                    }
+                });
+    }
+
     private List<SuperHero> givenThereAreSomeSuperHeroes(int numberOfSuperHeroes) {
+        String[] superHeroNames = {"Fini", "Kina"};
+
         List<SuperHero> superHeroes = new ArrayList<>();
         for (int i = 0; i < numberOfSuperHeroes; i++) {
-            superHeroes.add(new SuperHero.Builder().build());
+            SuperHero superHero = new SuperHero.Builder()
+                    .withName(superHeroNames[i % 2])
+                    .build();
+            superHeroes.add(superHero);
             when(repository.getAll()).thenReturn(superHeroes);
         }
         return superHeroes;
