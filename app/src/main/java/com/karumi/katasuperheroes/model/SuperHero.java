@@ -18,31 +18,62 @@ package com.karumi.katasuperheroes.model;
 
 public class SuperHero {
 
-  private final String name;
-  private final String photo;
-  private final boolean isAvenger;
-  private final String description;
+    private final String name;
+    private final String photo;
+    private final boolean isAvenger;
+    private final String description;
 
-  public SuperHero(String name, String photo, boolean isAvenger, String description) {
-    this.name = name;
-    this.photo = photo;
-    this.isAvenger = isAvenger;
-    this.description = description;
-  }
+    public SuperHero(String name, String photo, boolean isAvenger, String description) {
+        this.name = name;
+        this.photo = photo;
+        this.isAvenger = isAvenger;
+        this.description = description;
+    }
 
-  public String getName() {
-    return name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public String getPhoto() {
-    return photo;
-  }
+    public String getPhoto() {
+        return photo;
+    }
 
-  public boolean isAvenger() {
-    return isAvenger;
-  }
+    public boolean isAvenger() {
+        return isAvenger;
+    }
 
-  public String getDescription() {
-    return description;
-  }
+    public String getDescription() {
+        return description;
+    }
+
+    public static class Builder {
+        private String name;
+        private String photo;
+        private boolean isAvenger;
+        private String description;
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withPhoto(String photo) {
+            this.photo = photo;
+            return this;
+        }
+
+        public Builder isAvanger(boolean isAvenger) {
+            this.isAvenger = isAvenger;
+            return this;
+        }
+
+        public Builder withDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public SuperHero build() {
+            return new SuperHero(name, photo, isAvenger, description);
+        }
+    }
 }
