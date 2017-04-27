@@ -32,7 +32,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import it.cosenonjaviste.daggermock.DaggerMockRule;
 
@@ -86,7 +89,23 @@ public class MainActivityTest {
         onView(withText("¯\\_(ツ)_/¯")).check(matches(not(isDisplayed())));
     }
 
-    private void givenThereAreSomeSuperHeroes(int numberOfSuperHeroes) {
+    @Test
+    public void showsSuperHeroeNameWhenThereIsOneSuperHeroes() {
+        SuperHero superHero = new SuperHero.Builder()
+                .withName("Super Perrete")
+                .withPhoto("https://i.ytimg.com/vi/-3-dK3E5kwU/maxresdefault.jpg")
+                .isAvanger(false)
+                .withDescription("Super heroe from Murcia")
+                .build();
+        givenThereAreSomeSuperHeroes(superHero);
+
+        startActivity();
+
+        onView(withText(superHero.getName())).check(matches(isDisplayed()));
+    }
+
+    private List<SuperHero> givenThereAreSomeSuperHeroes(int numberOfSuperHeroes) {
+        List<SuperHero> superHeroes = new ArrayList<>();
         for (int i = 0; i < numberOfSuperHeroes; i++) {
             SuperHero superHero = new SuperHero.Builder()
                     .withName("Super Perrete")
@@ -94,9 +113,14 @@ public class MainActivityTest {
                     .isAvanger(false)
                     .withDescription("Super heroe from Murcia")
                     .build();
-            when(repository.getAll()).thenReturn(Collections.singletonList(superHero));
+            superHeroes.add(superHero);
+            when(repository.getAll()).thenReturn(superHeroes);
         }
+        return superHeroes;
+    }
 
+    private void givenThereAreSomeSuperHeroes(SuperHero... superHeroes) {
+        when(repository.getAll()).thenReturn(Arrays.asList(superHeroes));
     }
 
     private void givenThereAreNoSuperHeroes() {
