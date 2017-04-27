@@ -52,6 +52,13 @@ public class SuperHero {
         private boolean isAvenger;
         private String description;
 
+        public Builder() {
+            this.name = "";
+            this.photo = "any_photo_path";
+            this.isAvenger = false;
+            this.description = "";
+        }
+
         public Builder withName(String name) {
             this.name = name;
             return this;

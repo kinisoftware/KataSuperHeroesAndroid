@@ -93,9 +93,6 @@ public class MainActivityTest {
     public void showsSuperHeroeNameWhenThereIsOneSuperHeroes() {
         SuperHero superHero = new SuperHero.Builder()
                 .withName("Super Perrete")
-                .withPhoto("https://i.ytimg.com/vi/-3-dK3E5kwU/maxresdefault.jpg")
-                .isAvanger(false)
-                .withDescription("Super heroe from Murcia")
                 .build();
         givenThereAreSomeSuperHeroes(superHero);
 
@@ -107,13 +104,7 @@ public class MainActivityTest {
     private List<SuperHero> givenThereAreSomeSuperHeroes(int numberOfSuperHeroes) {
         List<SuperHero> superHeroes = new ArrayList<>();
         for (int i = 0; i < numberOfSuperHeroes; i++) {
-            SuperHero superHero = new SuperHero.Builder()
-                    .withName("Super Perrete")
-                    .withPhoto("https://i.ytimg.com/vi/-3-dK3E5kwU/maxresdefault.jpg")
-                    .isAvanger(false)
-                    .withDescription("Super heroe from Murcia")
-                    .build();
-            superHeroes.add(superHero);
+            superHeroes.add(new SuperHero.Builder().build());
             when(repository.getAll()).thenReturn(superHeroes);
         }
         return superHeroes;
